@@ -10,16 +10,16 @@ const conn = mysql.createConnection( {
 	user: 'user',
 	port: "3306",
 	password: 'Pite137',
-	database: 'ITBOLT'     /* create_it_termekek.sql */
+	database: 'kosarlabda'     /* create_it_termekek.sql */
 });
 
-app.post("/naplo", (req, res) => {
-    var sql = "SELECT URL FROM naplo GROUP BY url ORDER BY url;"
+app.post("/betolt", (req, res) => {
+    var sql = "SELECT ID_CSAPAT, NEV FROM csapatok;"
     Send_to_JSON(req, res, sql);
 });
 
-app.post("/lista/:url", (req, res) => {
-    var sql = `SELECT USER, URL, SQLX, DATUMIDO FROM naplo WHERE URL = "${req.params.url}" ORDER BY DATUMIDO;`
+app.post("/jatekos/:csapatid", (req, res) => {
+    var sql = `SELECT ID_JATEKOS, ID_CSAPAT, NEV, MEZ, POZ, EV, CM, KG FROM jatekosok WHERE ID_CSAPAT = ${req.params.csapatid};`
     Send_to_JSON(req, res, sql);
 });
 

@@ -1,26 +1,7 @@
 {
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.19.1",
     "express-session": "^1.18.0",
-    "jquery": "^3.7.1",
     "mysql": "^2.18.1"
-  },
-  "name": "nodejs_gyak",
-  "version": "1.0.0",
-  "main": "node.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wolfb25/nodejs_gyak.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wolfb25/nodejs_gyak/issues"
-  },
-  "homepage": "https://github.com/wolfb25/nodejs_gyak#readme",
-  "description": ""
+  }
 }

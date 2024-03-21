@@ -6,8 +6,8 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script src="jquery-3.6.0.min.js"></script>
-	<script type="text/javascript">
-		function ajax_get( urlsor, hova, tipus, aszinkron ) {
+<script type="text/javascript">
+function ajax_get( urlsor, hova, tipus, aszinkron ) {
 	$.ajax({url: urlsor, type:"get", async:aszinkron, cache:false, dataType:tipus===0?'html':'json',
 		beforeSend:function(xhr)   {  }, 
 		success:   function(data)  {  },
@@ -26,19 +26,44 @@ function ajax_post( urlsor, tipus  ) {
 		complete:  function()      {  } 
 	});
 	return s;
-};  
+};
 
 $(document).ready(function() {
-	$("#naplo").empty();
+	$("#lista").empty();
 	var listItems = "";
-	var k_json = ajax_post("naplo", 1);
-	for (let i = 0; i < k_json.length; i++) {
-		var sor = k_json[i].URL.replaceAll("::1", "localhost").replaceAll("::ffff:", "");
-		listItems += `<option value="${k_json[i].URL}">${sor}</option>`;
+	var json = ajax_post("betolt", 1);
+	for (let i = 0; i < json.length; i++) {
+		listItems += `<option value="${json[i].ID_CSAPAT}">${json[i].NEV}</option>`;
 	}
-	$("#naplo").append(listItems);
+	$("#lista").append(listItems);
+	keres();
+	$("#lista").change(function() { keres(); });
+	//$("#search_button").click(function() { keres(); });
 });
-	</script>
+
+
+function keres() {
+	$("#tablabody").empty();
+	var listItems = "";
+	var json = ajax_post("jatekos/" + $("#lista").val(), 1);
+	for (let i = 0; i < json.length; i++) {
+		listItems += `
+			<tr>
+				<td>${json[i].ID_JATEKOS}</th>
+				<td>${json[i].ID_CSAPAT}</td>
+				<th scope="row">${json[i].NEV}</td>
+				<td>${json[i].MEZ}</td>
+				<td>${json[i].POZ}</td>
+				<td>${json[i].EV}</td>
+				<td>${json[i].CM}</td>
+				<td>${json[i].KG}</td>
+    		</tr>
+		`;
+	}
+	$("#tablabody").append(listItems);
+}
+
+</script>
 	<title>Gyakorlás</title>
 </head>
 <body>
@@ -49,10 +74,28 @@ $(document).ready(function() {
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 		<div class="container-fluid">
 			<form class="d-flex m-auto" id="form1">
-			<select class="form-select me-3" id="naplo" name="naplo" style="width:400px;"></select>     
-			<div id="naplo" class="badge text-wrap text-light"></div>
-			<button id="search_button" type="button" class="btn btn-primary me-3 bi bi-search"> Keres</button>
+			<select class="form-select me-3" id="lista" name="lista" style="width:400px;"></select>     
+			<div id="lista" class="badge text-wrap text-light"></div>
+			<!--<button id="search_button" type="button" class="btn btn-primary me-3 bi bi-search"> Keres</button>-->
 		</div>
 	</nav>
+
+	<div>
+		<table class="table" id="tabla">
+			<thead>
+				<tr>
+					<th scope="col">ID_JATEKOS</th>
+					<th scope="col">ID_CSAPAT</th>
+					<th scope="col">NEV</th>
+					<th scope="col">MEZ</th>
+					<th scope="col">POZ</th>
+					<th scope="col">EV</th>
+					<th scope="col">CM</th>
+					<th scope="col">KG</th>
+				</tr>
+			</thead>
+			<tbody id="tablabody"> <!-- jatekosok goes here --> </tbody>
+		</table>
+	</div>
 </body>
 </html>
